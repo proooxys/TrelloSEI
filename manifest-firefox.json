@@ -1,0 +1,70 @@
+{
+  "manifest_version": 2,
+  "name": "SEI + Trello",
+  "version": "2.0.0",
+  "description": "Integração entre o SEI (Sistema Eletrônico de Informações) e o Trello — visualize, crie e associe cards diretamente nos processos do SEI.",
+  "author": "SEI+Trello Contributors",
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "notifications",
+    "*://*.sei.*.gov.br/*",
+    "*://sei.*.gov.br/*",
+    "https://api.trello.com/*",
+    "https://trello.com/*"
+  ],
+
+  "background": {
+    "scripts": ["src/background/background.js"],
+    "persistent": false
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.sei.*.gov.br/*",
+        "*://sei.*.gov.br/*"
+      ],
+      "js": ["src/content/content.js"],
+      "css": ["src/content/content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "browser_action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "src/icons/icon16.png",
+      "32": "src/icons/icon32.png",
+      "48": "src/icons/icon48.png",
+      "128": "src/icons/icon128.png"
+    },
+    "default_title": "SEI + Trello"
+  },
+
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true,
+    "browser_style": false
+  },
+
+  "icons": {
+    "16": "src/icons/icon16.png",
+    "32": "src/icons/icon32.png",
+    "48": "src/icons/icon48.png",
+    "128": "src/icons/icon128.png"
+  },
+
+  "web_accessible_resources": [
+    "src/icons/*",
+    "src/content/*"
+  ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "sei-trello@extensao",
+      "strict_min_version": "109.0"
+    }
+  }
+}

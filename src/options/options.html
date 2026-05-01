@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEI + Trello — Configurações</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="page">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar__logo">
+        <span class="logo-emoji">🗂️</span>
+        <div>
+          <div class="logo-name">SEI + Trello</div>
+          <div class="logo-ver">v2.0.0</div>
+        </div>
+      </div>
+      <ul class="sidebar__menu">
+        <li><a href="#sec-auth" class="menu-item active">🔑 Autenticação</a></li>
+        <li><a href="#sec-board" class="menu-item">📋 Board Padrão</a></li>
+        <li><a href="#sec-cards" class="menu-item">🃏 Criação de Cards</a></li>
+        <li><a href="#sec-painel" class="menu-item">🖥️ Painel</a></li>
+        <li><a href="#sec-assoc" class="menu-item">🔗 Associações</a></li>
+        <li><a href="#sec-sobre" class="menu-item">ℹ️ Sobre</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main -->
+    <main class="main">
+      <div id="toast" class="toast hidden"></div>
+
+      <!-- ── Autenticação ── -->
+      <section id="sec-auth" class="section">
+        <div class="section__header">
+          <h2>🔑 Autenticação Trello</h2>
+          <p>Gere sua API Key e Token em <a href="https://trello.com/app-key" target="_blank">trello.com/app-key</a> e cole abaixo.</p>
+        </div>
+
+        <div class="card">
+          <div class="steps">
+            <div class="step">
+              <span class="step-num">1</span>
+              <div>
+                Acesse <a href="https://trello.com/app-key" target="_blank">trello.com/app-key</a>
+                e copie sua <strong>API Key</strong>.
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-num">2</span>
+              <div>
+                Na mesma página, clique em <strong>"Token"</strong> e autorize a extensão.
+                Copie o token gerado.
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-num">3</span>
+              <div>Cole ambos abaixo e clique em <strong>Validar & Salvar</strong>.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="apiKey">API Key</label>
+            <input type="text" id="apiKey" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+          </div>
+
+          <div class="form-group">
+            <label for="token">Token</label>
+            <div class="input-row">
+              <input type="password" id="token" placeholder="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••" autocomplete="off" spellcheck="false" />
+              <button class="btn-icon" id="toggleToken" title="Mostrar/ocultar token">👁</button>
+            </div>
+          </div>
+
+          <div id="user-info" class="user-info hidden">
+            <img id="user-avatar" src="" alt="" />
+            <div>
+              <strong id="user-name"></strong>
+              <div id="user-username" class="muted"></div>
+            </div>
+            <span class="badge badge--green">✓ Conectado</span>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn--primary" id="btnValidate">Validar & Salvar</button>
+            <button class="btn btn--danger" id="btnClearAuth">Limpar credenciais</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Board Padrão ── -->
+      <section id="sec-board" class="section">
+        <div class="section__header">
+          <h2>📋 Board & Lista Padrão</h2>
+          <p>Selecione o board e a lista que serão pré-selecionados ao criar cards.</p>
+        </div>
+
+        <div class="card">
+          <div class="form-group">
+            <label for="defaultBoard">Board Padrão</label>
+            <select id="defaultBoard">
+              <option value="">— Selecione —</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="defaultList">Lista Padrão</label>
+            <select id="defaultList" disabled>
+              <option value="">— Selecione um board primeiro —</option>
+            </select>
+          </div>
+
+          <button class="btn btn--secondary" id="btnSaveBoard">Salvar preferências</button>
+        </div>
+      </section>
+
+      <!-- ── Criação de Cards ── -->
+      <section id="sec-cards" class="section">
+        <div class="section__header">
+          <h2>🃏 Criação de Cards</h2>
+          <p>Configure o comportamento padrão ao criar cards a partir do SEI.</p>
+        </div>
+
+        <div class="card">
+          <div class="toggle-row">
+            <label class="toggle">
+              <input type="checkbox" id="incluirNrProcesso" />
+              <span class="toggle__slider"></span>
+            </label>
+            <div>
+              <strong>Incluir número do processo no nome do card</strong>
+              <div class="muted">Ex: [00000.000000/2024-01] Solicitação de compra</div>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <label class="toggle">
+              <input type="checkbox" id="incluirLink" />
+              <span class="toggle__slider"></span>
+            </label>
+            <div>
+              <strong>Incluir link do SEI na descrição</strong>
+              <div class="muted">Adiciona o link do processo como attachment no card.</div>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <label class="toggle">
+              <input type="checkbox" id="notificaVencimento" />
+              <span class="toggle__slider"></span>
+            </label>
+            <div>
+              <strong>Notificar cards vencendo</strong>
+              <div class="muted">Exibe uma notificação quando há cards com vencimento nas próximas 24h.</div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 16px;">
+            <label for="cardTemplate">Template de descrição</label>
+            <textarea id="cardTemplate" rows="5"
+              placeholder="Use {processo}, {url} e {titulo} como variáveis.&#10;Ex: Processo: {processo}&#10;Link: {url}"></textarea>
+            <span class="hint">Variáveis disponíveis: <code>{processo}</code>, <code>{url}</code>, <code>{titulo}</code></span>
+          </div>
+
+          <button class="btn btn--secondary" id="btnSaveCards">Salvar configurações</button>
+        </div>
+      </section>
+
+      <!-- ── Painel ── -->
+      <section id="sec-painel" class="section">
+        <div class="section__header">
+          <h2>🖥️ Painel Lateral</h2>
+          <p>Customize a aparência e comportamento do painel no SEI.</p>
+        </div>
+
+        <div class="card">
+          <div class="toggle-row">
+            <label class="toggle">
+              <input type="checkbox" id="showPanelOnLoad" />
+              <span class="toggle__slider"></span>
+            </label>
+            <div>
+              <strong>Mostrar painel automaticamente</strong>
+              <div class="muted">Exibe o painel ao abrir um processo no SEI.</div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:16px">
+            <label for="seiDomain">Domínio do SEI (opcional)</label>
+            <input type="text" id="seiDomain" placeholder="Ex: sei.meuorgao.gov.br" />
+            <span class="hint">Deixe em branco para detectar automaticamente.</span>
+          </div>
+
+          <button class="btn btn--secondary" id="btnSavePainel">Salvar configurações</button>
+        </div>
+      </section>
+
+      <!-- ── Associações ── -->
+      <section id="sec-assoc" class="section">
+        <div class="section__header">
+          <h2>🔗 Associações Salvas</h2>
+          <p>Gerencie as associações entre processos do SEI e cards do Trello.</p>
+        </div>
+
+        <div class="card">
+          <div class="assoc-toolbar">
+            <input type="text" id="assocFilter" placeholder="Filtrar por número do processo…" class="input-sm" />
+            <button class="btn btn--danger btn--sm" id="btnClearAll">Limpar tudo</button>
+          </div>
+          <div id="assocList" class="assoc-list">
+            <div class="loading-msg">Carregando…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Sobre ── -->
+      <section id="sec-sobre" class="section">
+        <div class="section__header">
+          <h2>ℹ️ Sobre</h2>
+        </div>
+        <div class="card sobre-card">
+          <div class="sobre-logo">🗂️</div>
+          <h3>SEI + Trello v2.0.0</h3>
+          <p>Integração entre o <strong>SEI</strong> (Sistema Eletrônico de Informações) e o <strong>Trello</strong>.</p>
+          <p>Esta extensão é <strong>open source</strong> e não possui vínculo com o Governo Federal ou com o Trello/Atlassian.</p>
+          <div class="sobre-links">
+            <a href="https://trello.com/app-key" target="_blank" class="btn btn--secondary">🔑 Gerar API Key</a>
+            <a href="https://developer.atlassian.com/cloud/trello/rest/" target="_blank" class="btn btn--secondary">📖 Docs Trello API</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
